@@ -1,62 +1,47 @@
-provider "aws" {
-  region = var.region
-}
-
-module "vpc" {
-  source = "terraform-aws-modules/vpc/aws"
-
-  name = var.name
-  cidr = var.vpc_cidr
-
-  azs             = ["${var.region}a"]
-  private_subnets = var.private_subnets
-  public_subnets  = var.public_subnets
-
-  tags = var.tags
-}
-
-module "security_group" {
-  source = "terraform-aws-modules/security-group/aws"
-
-  name        = var.name
-  description = "Security group for ${var.name}"
-  vpc_id      = module.vpc.vpc_id
-
-  ingress_cidr_blocks = ["0.0.0.0/0"]
-  ingress_rules       = ["https-443-tcp", "http-80-tcp", "ssh-tcp"]
-  egress_rules        = ["all-all"]
-
-  tags = var.tags
-}
-
 module "ec2_instance" {
   source = "../../modules/compute/ec2"
 
-  name                        = var.name
-  ami_id                      = var.ami_id
-  instance_type              = var.instance_type
-  subnet_id                  = module.vpc.private_subnets[0]
-  security_group_ids         = [module.security_group.security_group_id]
-  associate_public_ip_address = false
+  # Core Configuration
+  name        = var.name
+  environment = var.environment
 
-  root_volume_size = 30
-  root_volume_type = "gp3"
+  # Instance Configuration
+  ami_id        = var.ami_id
+  instance_type = var.instance_type
 
-  additional_ebs_volumes = [
-    {
-      device_name = "/dev/sdf"
-      volume_size = 50
-      volume_type = "gp3"
-    }
-  ]
+  # Network Configuration
+  vpc_id    = var.vpc_id
+  subnet_id = var.subnet_id
 
-  metadata_options = {
-    http_endpoint               = "enabled"
-    http_tokens                 = "required"
-    http_put_response_hop_limit = 1
-    instance_metadata_tags      = "enabled"
+  # Security Configuration
+  create_security_group = true
+  security_group_rules = {
+    ingress = [
+      {
+        description = "SSH from anywhere"
+        from_port   = 22
+        to_port     = 22
+        protocol    = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+      }
+    ],
+    egress = [
+      {
+        description = "Allow all outbound traffic"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+      }
+    ]
   }
 
-  environment = "dev"
-  tags        = var.tags
-} 
+  # Storage Configuration
+  root_volume_size = 20
+  root_volume_type = "gp3"
+
+  # Monitoring Configuration
+  enable_cloudwatch_monitoring = true
+
+  tags = var.tags
+}
