@@ -2,7 +2,6 @@
 
 resource "aws_s3_bucket" "this" {
   bucket        = var.bucket_name
-  acl           = var.acl
   force_destroy = var.force_destroy
 
   tags = merge(
@@ -11,13 +10,12 @@ resource "aws_s3_bucket" "this" {
     },
     var.tags
   )
+}
 
-  # Block public access by default
-  public_access_block {
-    block_public_acls       = true
-    block_public_policy     = true
-    ignore_public_acls      = true
-    restrict_public_buckets = true
+resource "aws_s3_bucket_ownership_controls" "this" {
+  bucket = aws_s3_bucket.this.id
+  rule {
+    object_ownership = "BucketOwnerEnforced"
   }
 }
 

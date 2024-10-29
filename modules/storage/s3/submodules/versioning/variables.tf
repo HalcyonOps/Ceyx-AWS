@@ -6,4 +6,9 @@ variable "enabled" {
 
 variable "bucket_id" {
   type = string
+
+  validation {
+    condition     = length(var.bucket_id) > 0
+    error_message = "Bucket ID must not be empty."
+  }
 }
