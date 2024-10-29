@@ -1,27 +1,52 @@
 # Local .terraform directories
 **/.terraform/*
+**/.terraform
 
-# .tfstate files
+# Terraform state files
 *.tfstate
 *.tfstate.*
+*.tfstate.backup
+*.tfstate.*.backup
+
+# Terraform lock files
+.terraform.lock.hcl
+**/.terraform.lock.hcl
 
 # Crash log files
 crash.log
 crash.*.log
 
-# Exclude all .tfvars files, which are likely to contain sensitive data
+# Terraform vars files
 *.tfvars
 *.tfvars.json
+!*.tfvars.example
 
-# Ignore override files as they are usually used for local dev
+# Override files
 override.tf
 override.tf.json
 *_override.tf
 *_override.tf.json
 
-# Ignore CLI configuration files
+# CLI configuration files
 .terraformrc
 terraform.rc
+
+# Terraform plan output
+tfplan
+*.tfplan
+plan.out
+*.plan
+
+# Test files
+*.tftest.binary
+**/.terraform.d/
+**/terraform.d/
+.terraform.cache/
+
+# Local development
+.env
+.envrc
+.direnv/
 
 # IDE & OS specific files
 .idea/
@@ -29,8 +54,27 @@ terraform.rc
 .DS_Store
 *.swp
 *.swo
+*~
+.project
+*.sublime-*
+.settings/
+.classpath
 
-# Local development environment
-.env
-.envrc
+# Keys and certificates
+*.pem
+*.key
+*.pub
+*.crt
+*.csr
+*.cer
 
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.bak
+*.backup
+*.swp
+*.tmp
+*~
