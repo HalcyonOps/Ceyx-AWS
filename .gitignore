@@ -1,57 +1,40 @@
-# Local .terraform directories
+# Terraform files
 **/.terraform/*
-**/.terraform
-
-# Terraform state files
 *.tfstate
 *.tfstate.*
-*.tfstate.backup
-*.tfstate.*.backup
-
-# Terraform lock files
-.terraform.lock.hcl
-**/.terraform.lock.hcl
-
-# Crash log files
-crash.log
-crash.*.log
-
-# Terraform vars files
 *.tfvars
 *.tfvars.json
-!*.tfvars.example
-
-# Override files
 override.tf
 override.tf.json
 *_override.tf
 *_override.tf.json
-
-# CLI configuration files
 .terraformrc
 terraform.rc
-
-# Terraform plan output
 tfplan
 *.tfplan
 plan.out
 *.plan
-
-# Test files
 *.tftest.binary
 **/.terraform.d/
 **/terraform.d/
 .terraform.cache/
+graph.svg
 
-# Local development
-.env
+# Development environments
+.env*
 .envrc
 .direnv/
+*venv/
+node_modules/
 
-# IDE & OS specific files
+# IDE & OS files
 .idea/
 .vscode/
+*.iml
 .DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
 *.swp
 *.swo
 *~
@@ -68,13 +51,51 @@ plan.out
 *.csr
 *.cer
 
-# Logs
+# Logs and reports
 *.log
 logs/
+coverage/
+coverage.*.xml
+.nyc_output/
+test-results/
+test-output/
+yarn-debug.log*
+yarn-error.log*
+npm-debug.log*
 
-# Temporary files
-*.bak
-*.backup
-*.swp
-*.tmp
-*~
+# Binary and archive files
+*.exe
+*.dll
+*.so
+*.dylib
+*.pyc
+*.pyo
+*.pyd
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Tool specific
+.aws/
+.kube/
+packer_cache/
+*.retry
+
+# Ignore all hidden files by default
+.*
+# Exceptions
+!/.github/
+!.tflint.hcl
+!/.gitignore
+!**.gitkeep
+!/.checkov.yml
+!/.gitattributes
+!/.pre-commit-config.yaml
+!/.terraform-docs.yml
+!/.golangci.yml
+!/.env.example
+!*.tfvars.example
+
+# Custom ignores
+# Add any additional files or directories you wish to ignore below

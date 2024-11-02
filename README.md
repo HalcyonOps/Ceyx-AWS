@@ -1,65 +1,68 @@
-# Ceyx AWS Infrastructure as Code
+# Ceyx - AWS Infrastructure Modules
 
-Ceyx is a collection of Terraform modules and templates for deploying AWS infrastructure at any scale. It provides reusable components and patterns that follow AWS best practices and security standards.
+A collection of Terraform modules for AWS infrastructure provisioning, following security best practices and industry standards.
 
-## Features
+## Overview
 
-- Modular infrastructure components
-- Ready-to-use deployment templates
-- Secure state management
-- Infrastructure patterns for common architectures
-- CI/CD integration
+This repository contains reusable Terraform modules for AWS infrastructure deployment, with a focus on:
+- Security by default
+- Modular design
+- Comprehensive documentation
+- Infrastructure as Code best practices
 
-## Quick Start
+## Repository Structure
 
-1. Clone the repository
-```bash
-git clone https://github.com/your-org/ceyx-aws.git
-cd ceyx-aws
+```
+.
+├── modules/           # Reusable Terraform modules
+├── examples/          # Example implementations
+├── docs/             # Documentation and SOPs
+├── tests/            # Test configurations
+└── versions/         # Version constraints
 ```
 
-2. Choose a template
-- `templates/basic/` - For simple deployments
-- `templates/enterprise/` - For complex, multi-account setups
+## Prerequisites
 
-3. Configure your deployment
-```bash
-cd templates/basic
-cp terraform.tfvars.example terraform.tfvars
-# Edit terraform.tfvars with your configuration
-```
+- Terraform >= 1.5.0
+- AWS Provider >= 5.0.0
+- Go >= 1.22.0 (for development)
+- Python 3.x (for development)
 
-4. Deploy
-```bash
-terraform init
-terraform plan
-terraform apply
-```
+## Available Modules
 
-## Structure
+### Compute
+- [EC2](/modules/compute/ec2)
+  - Submodules:
+    - [Autoscaling Group](/modules/compute/ec2/submodules/autoscaling_group)
+    - [EC2 Instance](/modules/compute/ec2/submodules/ec2_instance)
+    - [Elastic IP](/modules/compute/ec2/submodules/elastic_ip)
+    - [Launch Template](/modules/compute/ec2/submodules/launch_template)
+    - [Security Group](/modules/compute/ec2/submodules/security_group)
+    - [Spot Instance](/modules/compute/ec2/submodules/spot_instance)
 
-```plaintext
-ceyx-aws/
-├── backend/         # State management infrastructure
-├── modules/         # Reusable infrastructure components
-├── patterns/        # Common architectural patterns
-└── templates/       # Deployment templates
-```
+### Storage
+- [S3](/modules/storage/s3)
+  - Submodules:
+    - [Bucket](/modules/storage/s3/submodules/bucket)
+    - [Encryption](/modules/storage/s3/submodules/encryption)
+    - [Lifecycle](/modules/storage/s3/submodules/lifecycle)
+    - [Logging](/modules/storage/s3/submodules/logging)
+    - [Replication](/modules/storage/s3/submodules/replication)
+
+## Usage
+
+Each module includes its own README with specific usage instructions. See the `examples/` directory for implementation examples.
+
+## Development
+
+Please see our [Contributing Guide](CONTRIBUTING.md) for development guidelines and setup instructions.
 
 ## Documentation
 
-- [Getting Started](docs/getting-started.md)
-- [Module Reference](docs/modules/)
-- [Architecture Patterns](docs/patterns/)
-
-## Contributing
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+- [Environment Setup](docs/development/environment-setup.md)
+- [Module Development SOP](docs/SOP_Module_Development.md)
+- [Design Standards](docs/SOP_Design_Standards.md)
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Support
-
-For support, please open an issue in the GitHub repository.
+Apache 2.0 - See [LICENSE](LICENSE) for more details.
