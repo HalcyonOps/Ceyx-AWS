@@ -1,112 +1,78 @@
-# **Terraform Module Standards**
+# **Project Standards**
+
+Ensuring consistency, security, and maintainability across our infrastructure is paramount. This document outlines the standards and best practices that all contributors should adhere to when working on the **Ceyx AWS Infrastructure as Code** project.
+
+## **Table of Contents**
+
+1. [Versioning and Release Management](#1-versioning-and-release-management)
+2. [Documentation](#2-documentation)
+   - [2.1. Documentation Standards](#21-documentation-standards)
+   - [2.2. Should-Have Standards](#22-should-have-standards)
+     - [2.2.3. Documentation](#223-documentation)
+     - [2.2.4. Testing and Validation](#224-testing-and-validation)
+     - [2.2.5. Resource Tagging](#225-resource-tagging)
+   - [2.3. Best Practices Enhancements](#23-best-practices-enhancements)
+3. [Coding Standards](#3-coding-standards)
+   - [3.1. Formatting](#31-formatting)
+   - [3.2. Naming Conventions](#32-naming-conventions)
+   - [3.3. Security Best Practices](#33-security-best-practices)
+4. [Testing and Validation](#4-testing-and-validation)
+5. [Security](#5-security)
+6. [References](#6-references)
 
 ---
 
-**Table of Contents**
-
-1. [Introduction](#1-introduction)
-2. [Categorized Standards](#2-categorized-standards)
-   - [2.1 Must-Have Standards](#21-must-have-standards)
-     - [2.1.1 Security by Default](#211-security-by-default)
-     - [2.1.2 Variable Validations](#212-variable-validations)
-     - [2.1.3 Implementing Secure Defaults](#213-implementing-secure-defaults)
-     - [2.1.4 Versioning and Release Management](#214-versioning-and-release-management)
-   - [2.2 Should-Have Standards](#22-should-have-standards)
-     - [2.2.1 Modularity and Reusability](#221-modularity-and-reusability)
-     - [2.2.2 Resource Configuration](#222-resource-configuration)
-     - [2.2.3 Documentation](#223-documentation)
-     - [2.2.4 Testing and Validation](#224-testing-and-validation)
-   - [2.3 Could-Have Standards](#23-could-have-standards)
-     - [2.3.1 Flexibility and Configurability](#231-flexibility-and-configurability)
-     - [2.3.2 Simplicity and Usability](#232-simplicity-and-usability)
-     - [2.3.3 Best Practices Enhancements](#233-best-practices-enhancements)
-3. [References](#3-references)
-4. [Final Notes](#4-final-notes)
-5. [Appendix: Practical Implementation Examples](#5-appendix-practical-implementation-examples)
-
----
-
-## **1. Introduction**
-
-This Standard Operating Procedure (SOP) outlines the guidelines and best practices for developing Terraform modules, patterns, and templates within the project. It emphasizes making decisions regarding optional and required parameters, ensuring secure configurations by default, and aligning with industry standards. The goal is to create modules that are secure, flexible, user-friendly, and maintainable.
-
----
-
-## **2. Categorized Standards**
-
-To enhance clarity and prioritize essential guidelines, the standards are categorized into **Must-Have**, **Should-Have**, and **Could-Have**. This categorization helps distinguish between critical practices and recommended enhancements.
-
-### **2.1 Must-Have Standards**
-
-These are critical for security, compliance, and fundamental functionality. Adhering to these standards is essential for the integrity and reliability of Terraform modules.
-
-#### **2.1.1 Security by Default**
-
-- **Secure Defaults:** Configure modules to use the most secure settings by default, reducing the risk of misconfiguration.
-- **Least Privilege:** Apply the principle of least privilege in IAM roles and policies.
-- **Compliance:** Ensure modules align with security compliance requirements (e.g., CIS benchmarks, GDPR).
-
-*Reference:* [AWS Well-Architected Framework – Security Pillar](https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html)
-
-#### **2.1.2 Variable Validations**
-
-Implement variable validations to catch errors early and provide clear feedback to users.
-
-- **Validation Guidelines:**
-  - Use `validation` blocks within variable declarations.
-  - Cover value ranges, format checks using regex, and dependency checks.
-
-*Reference:* [Terraform Variable Validation](https://www.terraform.io/language/values/variables#validation-blocks)
-
-#### **2.1.3 Implementing Secure Defaults**
-
-Ensure that resources are configured securely by default.
-
-- **Examples:**
-  - **S3 Buckets:**
-    - Default `acl` to `"private"`.
-    - Enable server-side encryption (`SSE`) by default.
-    - Block public access using `public_access_block` settings.
-  - **EC2 Instances:**
-    - Disable public IP assignment by default.
-    - Use security groups that deny all inbound traffic unless specified.
-
-*Reference:* [AWS Security Best Practices](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-cis.html)
-
-#### **2.1.4 Versioning and Release Management**
+## **1. Versioning and Release Management**
 
 Manage changes to modules systematically to ensure stability and traceability.
 
 - **Semantic Versioning:** Use MAJOR.MINOR.PATCH.
-- **Changelog:** Maintain a `CHANGELOG.md` documenting changes for each release.
-- **Release Process:** Develop features/fixes, conduct code reviews, testing, update version, update changelog, tag release, and publish.
+  - **MAJOR:** Incompatible API changes.
+  - **MINOR:** Backwards-compatible functionality additions.
+  - **PATCH:** Backwards-compatible bug fixes.
+
+- **Changelog:** Maintain a `CHANGELOG.md` documenting changes for each release following the [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format.
+
+- **Release Process:**
+  1. Develop features/fixes in separate branches.
+  2. Conduct code reviews and automated testing.
+  3. Update version number following semantic versioning.
+  4. Update `CHANGELOG.md` with the latest changes.
+  5. Tag the release in Git.
+  6. Publish the release.
 
 *Reference:* [Terraform Module Versioning Best Practices](https://www.terraform.io/language/modules/develop/best-practices#versioning)
 
-### **2.2 Should-Have Standards**
+## **2. Documentation**
+
+### **2.1. Documentation Standards**
+
+Provide clear and comprehensive documentation to guide users and contributors.
+
+- **README Structure:**
+  - **Title**
+  - **Description**
+  - **Usage**
+  - **Inputs**
+  - **Outputs**
+  - **Requirements**
+  - **Providers**
+  - **Modules**
+  - **Resources**
+  - **Authors**
+  - **License**
+
+- **Input/Output Tables:** Clearly list variables and outputs with descriptions, types, defaults, and sensitivity.
+
+- **Example Implementation:** Include practical examples demonstrating module usage.
+
+*Reference:* [Terraform Module Documentation](https://www.terraform.io/language/modules/develop)
+
+### **2.2. Should-Have Standards**
 
 These standards are important for maintainability and best practices but are not immediately critical.
 
-#### **2.2.1 Modularity and Reusability**
-
-- **Separation of Concerns:** Design modules to handle specific functionalities, promoting reuse across different projects.
-- **Encapsulation:** Keep module internals hidden from the consumer, exposing only necessary variables and outputs.
-- **Flat Module Structure:** Adopt a flat module organization to enhance maintainability, scalability, and readability, aligning with [HashiCorp's best practices](https://developer.hashicorp.com/terraform/language/modules/develop/structure).
-
-*Reference:* [HashiCorp Terraform Module Best Practices](https://www.terraform.io/language/modules/develop/best-practices)
-
-#### **2.2.2 Resource Configuration**
-
-Define resources in `main.tf`, using variables and locals to parameterize configurations.
-
-- **Resource Naming:** Use descriptive names and reference variables/locals for dynamic values.
-- **Conditional Resource Creation:** Use `count` or `for_each` based on input variables.
-- **Dynamic Blocks:** Handle variable nested configurations using `dynamic` blocks.
-- **Locals:** Use `locals.tf` for intermediate calculations or groupings.
-
-*Reference:* [Terraform Resource Naming Best Practices](https://www.terraform.io/language/resources)
-
-#### **2.2.3 Documentation**
+#### **2.2.3. Documentation**
 
 Provide clear and comprehensive documentation to guide users.
 
@@ -116,7 +82,7 @@ Provide clear and comprehensive documentation to guide users.
 
 *Reference:* [Terraform Module Documentation](https://www.terraform.io/language/modules/develop)
 
-#### **2.2.4 Testing and Validation**
+#### **2.2.4. Testing and Validation**
 
 Ensure modules work as intended and adhere to standards.
 
@@ -127,21 +93,19 @@ Ensure modules work as intended and adhere to standards.
 
 *Reference:* [Terraform Testing Best Practices](https://learn.hashicorp.com/tutorials/terraform/testing)
 
-#### **2.2.5 Resource Tagging**
+#### **2.2.5. Resource Tagging**
 
-Implement a consistent and comprehensive tagging strategy across all AWS resources to facilitate management, auditing, and compliance.
-
-#### **Tagging Guidelines:**
+Consistent and comprehensive tagging is crucial for managing, auditing, and optimizing AWS resources.
 
 - **Mandatory Tags:**
-  - **`Project`**: Identifies the project name. Use the predefined `project_prefix` local to ensure consistency.
+  - **`Project`**: Identifies the project name.
     - *Example:* `Project = "terraform-xyz"`
   - **`Environment`**: Specifies the deployment environment.
     - *Values:* `dev`, `staging`, `prod`
     - *Example:* `Environment = "production"`
   - **`Owner`**: Indicates the team or individual responsible for the resource.
     - *Example:* `Owner = "backend-team"`
-  - **`CostCenter`**: Associates the resource with a specific cost center for budgeting and financial tracking.
+  - **`CostCenter`**: Associates the resource with a specific cost center.
     - *Example:* `CostCenter = "FIN-001"`
 
 - **Optional Tags:**
@@ -152,214 +116,124 @@ Implement a consistent and comprehensive tagging strategy across all AWS resourc
   - **`Department`**: Specifies the department owning the resource.
     - *Example:* `Department = "Engineering"`
 
-#### **Tagging Conventions:**
+*Reference:* [AWS Security Best Practices](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-cis.html)
 
-- **Format:**
-  - Use **PascalCase** for tag keys.
-  - Tag values should be lowercase and use hyphens for separation if necessary.
-    - *Example:* `Owner = "frontend-team"`
+### **2.3. Best Practices Enhancements**
 
-- **Consistency:**
-  - Ensure all resources include the mandatory tags.
-  - Use Terraform modules to enforce tagging policies automatically.
+Enhance the project standards to incorporate advanced best practices for automation, error handling, and performance.
 
-- **Automation:**
-  - Incorporate tagging within Terraform modules to prevent omissions.
-  - Utilize AWS Config rules to monitor and enforce tagging compliance.
-  - Implement pre-commit hooks to validate tagging before code is committed.
+#### **2.3.1. Automation**
 
-#### **Implementation Example:**
+- **CI/CD Pipelines:** Leverage CI/CD pipelines for automated testing and deployment.
+- **Automate Code Formatting and Linting:** Integrate tools like `terraform fmt` and `tflint` into pre-commit hooks and CI workflows.
 
-```hcl:modules/network/vpc/main.tf
-resource "aws_iam_policy" "flow_logs_policy" {
-  name        = "${local.project_prefix}flow-logs-policy"
-  description = "Policy for VPC Flow Logs KMS key access"
+#### **2.3.2. Error Handling**
 
-  policy = data.aws_iam_policy_document.flow_logs_key_policy.json
+- **Variable Validations:** Use Terraform's `validation` blocks to enforce variable constraints.
+- **Conditional Expressions:** Utilize `try()` and conditional expressions for handling nullable values and default behaviors.
 
-  tags = merge(
-    local.resource_tags,
-    {
-      Project      = local.project_prefix
-      Environment  = var.environment
-      Owner        = var.owner
-      CostCenter   = var.cost_center
-      Application  = var.application
-    }
-  )
-}
-```
+#### **2.3.3. Performance and Scalability**
 
-### **2.3 Could-Have Standards**
+- **Optimize Resource Configurations:** Ensure Terraform configurations are optimized for cost and performance.
+- **Design for Scalability:** Structure modules to handle scaling requirements, such as auto-scaling groups and load balancers.
 
-These standards enhance code quality and developer experience but are not essential.
-
-#### **2.3.1 Flexibility and Configurability**
-
-- **Optional Features:** Provide configurations for non-essential features, allowing users to enable as needed.
-- **Parameterization:** Use input variables with sensible defaults.
-- **Extensibility:** Design modules to be easily extendable for future enhancements.
-
-*Reference:* [Terraform Modules Documentation](https://www.terraform.io/language/modules/develop)
-
-#### **2.3.2 Simplicity and Usability**
-
-- **User-Friendly Interfaces:** Minimize required inputs to enhance usability.
-- **Consistent Naming Conventions:** Follow uniform naming and coding standards.
-- **Clear Code:** Use concise and readable code to facilitate understanding.
-
-*Reference:* [Terraform Module Best Practices](https://www.terraform.io/language/modules/develop/best-practices)
-
-#### **2.3.3 Best Practices Enhancements**
-
-- **Automation:** Leverage CI/CD pipelines for automated testing and deployment, automate code formatting and linting.
-- **Error Handling:** Provide meaningful error messages through variable validations, use `try()` and conditional expressions for nullable values.
-- **Performance and Scalability:** Optimize resource configurations for cost and performance, design modules to handle scaling requirements.
-
-*Reference:*
+*References:*
 - [Terraform Automation Best Practices](https://www.terraform.io/language/modules/develop/best-practices#automation)
 - [Terraform Performance Best Practices](https://www.terraform.io/language/resources/best-practices)
 - [Terraform Scalability Best Practices](https://www.terraform.io/language/resources/best-practices#scalability)
 
----
+## **3. Coding Standards**
 
-## **3. References**
+Maintain consistency, security, and quality across the project by adhering to the following coding standards.
+
+### **3.1. Formatting**
+
+- **Terraform Formatting:** Use `terraform fmt` to maintain consistent code formatting.
+- **Indentation:** Use two spaces for indentation.
+- **Line Length:** Limit lines to 120 characters for readability.
+
+### **3.2. Naming Conventions**
+
+- **Variables:** Use `snake_case` for variable names.
+  - *Example:* `instance_type`
+- **Resources:** Follow AWS naming conventions and use descriptive names.
+  - *Example:* `aws_instance.web_server`
+- **Modules:** Use meaningful and consistent names for modules.
+  - *Example:* `modules/compute/ec2`
+
+### **3.3. Security Best Practices**
+
+- **Least Privilege:** Ensure that IAM roles and policies follow the principle of least privilege.
+- **State Management:** Securely manage Terraform state files, using remote backends with encryption.
+- **Sensitive Data:** Mark sensitive variables appropriately and avoid hardcoding secrets.
+
+*Reference:* [AWS Well-Architected Framework – Security Pillar](https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html)
+
+## **4. Testing and Validation**
+
+Ensure the integrity and reliability of your infrastructure configurations through comprehensive testing and validation.
+
+- **Static Code Analysis:**
+  - **`terraform fmt`:** Automatically format Terraform files.
+  - **`terraform validate`:** Validate Terraform configurations for syntax errors and consistency.
+  - **`tflint`:** Lint Terraform code to detect errors and enforce best practices.
+
+- **Automated Testing:**
+  - **Terratest:** Implement integration tests to validate the behavior of Terraform modules.
+
+- **Pre-commit Hooks:**
+  - Automatically run formatting and linting tools before commits to maintain code quality.
+
+*Reference:* [Terraform Testing Best Practices](https://learn.hashicorp.com/tutorials/terraform/testing)
+
+## **5. Security**
+
+Maintain robust security practices to safeguard infrastructure and data.
+
+- **Access Control:**
+  - Implement IAM roles with minimal required permissions.
+  - Use MFA for all privileged accounts.
+
+- **Data Encryption:**
+  - Encrypt sensitive data in transit and at rest using AWS-managed keys or customer-managed keys.
+
+- **Monitoring and Logging:**
+  - Enable AWS CloudTrail and AWS Config for auditing and compliance.
+  - Integrate with AWS Security Hub for centralized security management.
+
+- **Vulnerability Management:**
+  - Regularly scan infrastructure with tools like Checkov and Trivy to identify and remediate vulnerabilities.
+
+*Reference:* [AWS Security Best Practices](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-cis.html)
+
+## **6. References**
 
 To ensure alignment with industry-leading standards and best practices, the following official documentation from AWS and HashiCorp has been referenced throughout this document:
 
 ### **HashiCorp Terraform Documentation**
-
 - [Terraform Module Best Practices](https://www.terraform.io/language/modules/develop/best-practices)
-- [Terraform Variables Documentation](https://www.terraform.io/language/values/variables)
-- [Terraform Outputs Documentation](https://www.terraform.io/language/values/outputs)
-- [Terraform Locals Documentation](https://www.terraform.io/language/values/locals)
-- [Terraform Module Documentation](https://www.terraform.io/language/modules/develop)
-- [Terraform Testing Best Practices](https://learn.hashicorp.com/tutorials/terraform/testing)
+- [Terraform Variable Validation](https://www.terraform.io/language/values/variables#validation-blocks)
 - [Terraform Automation Best Practices](https://www.terraform.io/language/modules/develop/best-practices#automation)
-- [Terraform Error Handling Best Practices](https://www.terraform.io/language/modules/develop/best-practices#error-handling)
-- [Terraform Resource Lifecycle Management](https://developer.hashicorp.com/terraform/tutorials/state/resource-lifecycle)
-- [Terraform State Management](https://developer.hashicorp.com/terraform/tutorials/state/state-cli)
-- [Zero Downtime Deployments with Terraform](https://www.hashicorp.com/blog/zero-downtime-updates-with-terraform)
-
-### **AWS Documentation**
-
-- [AWS Well-Architected Framework – Security Pillar](https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html)
-- [AWS Security Best Practices](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-cis.html)
-- [AWS Compliance Programs](https://aws.amazon.com/compliance/programs/)
-- [AWS S3 Security Best Practices](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html)
-- [AWS S3 Encryption Best Practices](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingEncryption.html)
-
-### **Additional Resources**
-
-- [Semantic Versioning](https://semver.org/)
-- [Terraform Coding Standards](https://www.terraform.io/language/resources)
-- [Terratest Documentation](https://terratest.gruntwork.io/)
 - [Terraform Performance Best Practices](https://www.terraform.io/language/resources/best-practices)
 - [Terraform Scalability Best Practices](https://www.terraform.io/language/resources/best-practices#scalability)
 
----
+### **AWS Documentation**
+- [AWS Well-Architected Framework – Security Pillar](https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html)
+- [AWS Security Best Practices](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-cis.html)
+- [Terraform Module Documentation](https://www.terraform.io/language/modules/develop)
 
-## **4. Final Notes**
-
-Adhering to this **Terraform Module Standards** document ensures that Terraform modules are developed consistently, are maintainable, and provide a positive experience for users and contributors. Regularly reviewing and updating this document can help incorporate evolving best practices and organizational needs.
-
----
-
-# **5. Appendix: Practical Implementation Examples**
-
-To further illustrate the application of these guidelines, here are some practical examples:
-
-## **A. Required vs. Optional Parameters**
-
-### **1. EC2 Module**
-
-- **Required Parameters:**
-  - `ami_id`: Essential for launching an instance.
-  - `instance_type`: Determines the hardware configuration.
-  - `subnet_id`: Specifies where the instance will be launched.
-
-- **Optional Parameters:**
-  - `key_name`: Optional if instances are managed without SSH access.
-  - `associate_public_ip_address`: Defaults to `false` to enhance security.
-
-### **2. S3 Module**
-
-- **Required Parameters:**
-  - `bucket_name`: Necessary for bucket creation.
-  - `environment`: Used for tagging and resource identification.
-
-- **Optional Parameters:**
-  - `enable_versioning`: Defaults to `false`, can be enabled if needed.
-  - `enable_logging`: Disabled by default, can be enabled for audit requirements.
-
-*Reference:* [AWS S3 Security Best Practices](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html)
-
-## **B. Secure Defaults with Opt-in Configurations**
-
-### **1. Public Access to S3 Buckets**
-
-- **Default Behavior:**
-  - Block all public access.
-  - Require explicit action to enable public access.
-
-- **Opt-in Mechanism:**
-  - Variable `allow_public_access` set to `false` by default.
-  - Users must set `allow_public_access = true` to enable.
-
-### **2. Encryption Settings**
-
-- **Default Behavior:**
-  - Enable server-side encryption using AWS-managed keys.
-
-- **Customization:**
-  - Allow users to specify `kms_key_arn` for customer-managed keys.
-  - Validate that if `kms_key_arn` is provided, it is in the correct format.
-
-*Reference:* [AWS S3 Encryption Best Practices](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingEncryption.html)
-
-## **C. Validation Examples**
-
-### **1. Preventing Insecure Configurations**
-
-```hcl
-variable "allow_public_access" {
-  description = "Allow public access to the resource."
-  type        = bool
-  default     = false
-}
-
-variable "public_access_cidr_blocks" {
-  description = "CIDR blocks for public access."
-  type        = list(string)
-  default     = []
-
-  validation {
-    condition     = var.allow_public_access ? length(var.public_access_cidr_blocks) > 0 : true
-    error_message = "When 'allow_public_access' is true, 'public_access_cidr_blocks' must be specified."
-  }
-}
-```
-
-### **2. Enforcing Required Variables**
-
-```hcl
-variable "kms_key_arn" {
-  description = "ARN of the KMS key for encryption."
-  type        = string
-  default     = null
-
-  validation {
-    condition     = var.enable_encryption ? var.kms_key_arn != null : true
-    error_message = "When encryption is enabled, 'kms_key_arn' must be provided."
-  }
-}
-```
-
-*Reference:* [Terraform Variable Validation](https://www.terraform.io/language/values/variables#validation-blocks)
+### **Additional Tools and References**
+- [Pre-commit Hooks Documentation](https://pre-commit.com/)
+- [Terraform-docs Documentation Generation](https://terraform-docs.io/)
+- [Checkov](https://www.checkov.io/)
+- [Terratest Documentation](https://terratest.gruntwork.io/)
+- [Trivy](https://aquasecurity.github.io/trivy/)
+- [Conventional Commits Specification](https://www.conventionalcommits.org/en/v1.0.0/)
+- [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ---
 
-**Note:** These examples are intended to illustrate how to apply the guidelines in practical scenarios. They demonstrate how to make thoughtful decisions about optional and required parameters, implement secure defaults, and provide flexibility for users.
+**Note:** If there are specific sections or areas within the **STANDARDS.md** that require further enhancement or if you need assistance with other documentation files, please let me know!
 
 ---
 

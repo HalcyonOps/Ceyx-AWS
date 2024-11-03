@@ -97,5 +97,9 @@ packer_cache/
 !/.env.example
 !*.tfvars.example
 
+# Go
+go.mod
+go.sum
+
 # Custom ignores
 # Add any additional files or directories you wish to ignore below

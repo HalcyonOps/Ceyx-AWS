@@ -1,7 +1,5 @@
 # Security Policy
 
-We take security vulnerabilities seriously. If you discover a security issue, please follow the guidelines below.
-
 ## Supported Versions
 
 We currently support the following versions:
@@ -13,21 +11,39 @@ We currently support the following versions:
 
 ## Reporting a Vulnerability
 
-To report a security vulnerability, please:
+If you discover a security vulnerability in **Ceyx AWS Infrastructure as Code**, please report it immediately by creating a private issue or contacting the maintainers directly at [maintainer@example.com](mailto:maintainer@example.com). All security vulnerabilities will be promptly addressed.
 
-1. **Do Not** create public issues for security vulnerabilities.
-2. **Contact Us Directly**: Send an email to [security contact email] with the details.
-   - Provide a description of the vulnerability.
-   - Include steps to reproduce the issue.
-   - Attach any relevant logs or screenshots.
+### Do Not
 
-We will acknowledge your report within 5 business days and work with you to understand and address the issue promptly.
+- **Do not** publicly disclose the vulnerability before it has been addressed.
+- **Do not** modify or delete any existing public issue or discussion related to the vulnerability.
 
-## Preferred Languages
+### Required Information
 
-We prefer all communications in English.
+When reporting a vulnerability, please include the following:
 
-## Policy
+- **Description:** A clear and concise description of the vulnerability.
+- **Impact:** Explain the potential impact of the vulnerability.
+- **Steps to Reproduce:** Detailed steps to reproduce the issue.
+- **Environment:** Information about your environment (e.g., Terraform version, AWS region).
 
-- We are committed to addressing security vulnerabilities in a timely manner.
-- We appreciate your efforts to responsibly disclose vulnerabilities.
+## Response Process
+
+1. **Acknowledgment:** We will acknowledge your report within 24 hours.
+2. **Assessment:** Our team will assess the severity and impact of the vulnerability.
+3. **Resolution:** We will work on a fix or mitigation strategy.
+4. **Communication:** We will inform you once the issue is resolved.
+
+## Additional Security Practices
+
+- **Data Encryption:** Ensure all sensitive data is encrypted both in transit and at rest using AWS-managed keys or customer-managed keys.
+- **Access Control:** Implement the principle of least privilege for all IAM roles and policies.
+- **Regular Audits:** Conduct regular security audits and compliance checks to identify and remediate potential vulnerabilities.
+- **Dependency Management:** Regularly update dependencies to mitigate known vulnerabilities and ensure compatibility.
+- **Monitoring and Logging:** Enable AWS CloudTrail and AWS Config for auditing and integrate with AWS Security Hub for centralized security management.
+
+## References
+
+- [AWS Security Best Practices](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-cis.html)
+- [Conventional Commits Specification](https://www.conventionalcommits.org/en/v1.0.0/)
+- [Terraform Security Best Practices](https://www.terraform.io/docs/cloud/security.html)
