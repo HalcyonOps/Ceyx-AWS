@@ -127,6 +127,69 @@ Ensure modules work as intended and adhere to standards.
 
 *Reference:* [Terraform Testing Best Practices](https://learn.hashicorp.com/tutorials/terraform/testing)
 
+#### **2.2.5 Resource Tagging**
+
+Implement a consistent and comprehensive tagging strategy across all AWS resources to facilitate management, auditing, and compliance.
+
+#### **Tagging Guidelines:**
+
+- **Mandatory Tags:**
+  - **`Project`**: Identifies the project name. Use the predefined `project_prefix` local to ensure consistency.
+    - *Example:* `Project = "terraform-xyz"`
+  - **`Environment`**: Specifies the deployment environment.
+    - *Values:* `dev`, `staging`, `prod`
+    - *Example:* `Environment = "production"`
+  - **`Owner`**: Indicates the team or individual responsible for the resource.
+    - *Example:* `Owner = "backend-team"`
+  - **`CostCenter`**: Associates the resource with a specific cost center for budgeting and financial tracking.
+    - *Example:* `CostCenter = "FIN-001"`
+
+- **Optional Tags:**
+  - **`Application`**: Names the application using the resource.
+    - *Example:* `Application = "user-service"`
+  - **`Version`**: Denotes the version of the resource or application.
+    - *Example:* `Version = "v1.2.3"`
+  - **`Department`**: Specifies the department owning the resource.
+    - *Example:* `Department = "Engineering"`
+
+#### **Tagging Conventions:**
+
+- **Format:**
+  - Use **PascalCase** for tag keys.
+  - Tag values should be lowercase and use hyphens for separation if necessary.
+    - *Example:* `Owner = "frontend-team"`
+
+- **Consistency:**
+  - Ensure all resources include the mandatory tags.
+  - Use Terraform modules to enforce tagging policies automatically.
+
+- **Automation:**
+  - Incorporate tagging within Terraform modules to prevent omissions.
+  - Utilize AWS Config rules to monitor and enforce tagging compliance.
+  - Implement pre-commit hooks to validate tagging before code is committed.
+
+#### **Implementation Example:**
+
+```hcl:modules/network/vpc/main.tf
+resource "aws_iam_policy" "flow_logs_policy" {
+  name        = "${local.project_prefix}flow-logs-policy"
+  description = "Policy for VPC Flow Logs KMS key access"
+
+  policy = data.aws_iam_policy_document.flow_logs_key_policy.json
+
+  tags = merge(
+    local.resource_tags,
+    {
+      Project      = local.project_prefix
+      Environment  = var.environment
+      Owner        = var.owner
+      CostCenter   = var.cost_center
+      Application  = var.application
+    }
+  )
+}
+```
+
 ### **2.3 Could-Have Standards**
 
 These standards enhance code quality and developer experience but are not essential.

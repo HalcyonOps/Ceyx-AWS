@@ -1,6 +1,3 @@
-I'll help you rewrite the CONTRIBUTING.md file to be cleaner and more organized. I'll reference the existing project structure and standards from the provided files.
-
-```markdown:CONTRIBUTING.md
 # Contributing to Ceyx
 
 Thank you for your interest in contributing to Ceyx! This guide will help you get started with contributing to our AWS Infrastructure as Code project.
