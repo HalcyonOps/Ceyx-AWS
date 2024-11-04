@@ -19,23 +19,25 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.2
 
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
           go-version: '1.22'
 
-      - name: Install Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.5.0
+      - name: Initialize Go Module
+        run: |
+          if [ ! -f go.mod ]; then
+            go mod init github.com/HalcyonOps/terraform-aws-modules
+          fi
 
       - name: Install Dependencies
         run: |
-          go get github.com/gruntwork-io/terratest/modules/terraform
-          go get github.com/stretchr/testify/assert
-          # Install any other dependencies your tests require
+          go mod tidy
+          # Alternatively, specify required modules
+          # go install github.com/gruntwork-io/terratest/modules/terraform@latest
+          # go install github.com/stretchr/testify/assert@latest
 
       - name: Run Terratest for EC2 Module
         run: |
