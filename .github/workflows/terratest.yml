@@ -1,0 +1,48 @@
+name: Terratest Integration Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  terratest:
+    name: Run Terratest
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.22'
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.0
+
+      - name: Install Dependencies
+        run: |
+          go get github.com/gruntwork-io/terratest/modules/terraform
+          go get github.com/stretchr/testify/assert
+          # Install any other dependencies your tests require
+
+      - name: Run Terratest for EC2 Module
+        run: |
+          cd modules/compute/ec2/tests
+          go test -v -timeout 30m
+
+      - name: Run Terratest for VPC Module
+        run: |
+          cd modules/network/vpc/tests
+          go test -v -timeout 30m
