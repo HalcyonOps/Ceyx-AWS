@@ -1,22 +1,16 @@
-# .github/workflows/terraform-ci.yml
-name: Terraform CI
+# .github/workflows/templates/deploy.yml
+name: Deploy Infrastructure
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 permissions:
   contents: read
-  actions: read
   id-token: write
 
 jobs:
-  terraform:
-    name: Terraform Lint, Validate, and Generate Documentation
+  deploy:
+    name: Deploy Terraform Infrastructure
     runs-on: ubuntu-latest
 
     steps:
@@ -31,8 +25,6 @@ jobs:
       - name: Install Terraform Tools
         run: |
           sudo apt-get update && sudo apt-get install -y curl wget unzip python3-pip
-          # Install TFLint
-          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
           # Install terraform-docs
           wget https://github.com/terraform-docs/terraform-docs/releases/download/v0.16.0/terraform-docs-v0.16.0-linux-amd64.tar.gz
           tar -xzf terraform-docs-v0.16.0-linux-amd64.tar.gz
@@ -49,14 +41,9 @@ jobs:
       - name: Terraform Init
         run: terraform init -plugin-cache=~/.terraform.d/plugin-cache
 
-      - name: Terraform Format Check
-        run: terraform fmt -check
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
 
-      - name: Terraform Validate
-        run: terraform validate
-
-      - name: Run TFLint
-        run: tflint
-
-      - name: Generate Documentation with Terraform-docs
-        run: terraform-docs markdown table . > README.md
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply -auto-approve tfplan
