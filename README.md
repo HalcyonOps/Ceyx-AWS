@@ -139,10 +139,10 @@ We welcome contributions! Please refer to our [Contributing Guide](CONTRIBUTING.
 Ensure the integrity of your infrastructure configurations by following our testing protocols:
 
 1. **Static Code Analysis:** Run `terraform fmt`, `terraform validate`, and `tflint`.
-2. **Automated Testing:** Utilize Terratest for comprehensive testing.
+2. **Automated Testing:** Utilize Terratest for comprehensive testing and Terraform unit tests for individual modules.
 3. **Pre-commit Hooks:** Ensure all pre-commit hooks pass before committing changes.
 
-For more information, see the [Testing and Validation](STANDARDS.md#224-testing-and-validation) section in our standards document.
+For more information, see the [Testing and Validation](STANDARDS.md#4-testing-and-validation) section in our standards document.
 
 ## **9. Documentation**
 
@@ -151,6 +151,8 @@ Maintain up-to-date documentation to facilitate ease of use and onboarding:
 - **Module Documentation:** Each module contains a `README.md` with usage instructions and examples.
 - **Automated Documentation Generation:** Use `terraform-docs` to keep documentation current.
 - **Environment Setup Guide:** Refer to [ENVIRONMENT.md](ENVIRONMENT.md) for setting up your local environment.
+- **Deployment Guides:** Utilize workflow templates located in `.github/workflows/templates/` for deploying infrastructure.
+- **Security Scanning Workflows:** Refer to `.github/workflows/security-scan.yml` for integrating security scans into CI.
 
 ## **10. License**
 

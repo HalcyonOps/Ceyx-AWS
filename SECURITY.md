@@ -47,3 +47,16 @@ When reporting a vulnerability, please include the following:
 - [AWS Security Best Practices](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-cis.html)
 - [Conventional Commits Specification](https://www.conventionalcommits.org/en/v1.0.0/)
 - [Terraform Security Best Practices](https://www.terraform.io/docs/cloud/security.html)
+
+### **Security Scanning Workflow**
+
+To ensure the security of our infrastructure, we have integrated automated security scanning into our CI/CD pipeline using Checkov and Trivy. These scans are configured in the `security-scan.yml` workflow.
+
+- **Checkov:** Performs static analysis of Terraform code to detect security and compliance issues.
+- **Trivy:** Scans container images for vulnerabilities.
+
+#### **Using the Security Scan Workflow**
+
+Ensure that you have the necessary secrets configured in your GitHub repository for running these scans.
+
+*Reference:* [Terraform Security Best Practices](https://www.terraform.io/docs/cloud/security.html)

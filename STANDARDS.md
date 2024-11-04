@@ -180,11 +180,36 @@ Ensure the integrity and reliability of your infrastructure configurations throu
 
 - **Automated Testing:**
   - **Terratest:** Implement integration tests to validate the behavior of Terraform modules.
+  - **Terraform Unit Tests:** Implement unit tests to validate individual Terraform modules in isolation.
 
 - **Pre-commit Hooks:**
   - Automatically run formatting and linting tools before commits to maintain code quality.
 
-*Reference:* [Terraform Testing Best Practices](https://learn.hashicorp.com/tutorials/terraform/testing)
+- **Security Scanning:**
+  - **Checkov:** Perform static analysis of Terraform code to detect security and compliance issues.
+  - **Trivy:** Scan container images for vulnerabilities.
+
+*References:*
+- [Terraform Testing Best Practices](https://learn.hashicorp.com/tutorials/terraform/testing)
+- [Conventional Commits Specification](https://www.conventionalcommits.org/en/v1.0.0/)
+- [Open Policy Agent Documentation](https://www.openpolicyagent.org/docs/latest/)
+
+### **3.4. Workflow Templates**
+
+Provide reusable GitHub Actions workflow templates to standardize CI/CD processes across projects.
+
+- **Deployment Template:** Located in `.github/workflows/templates/deploy.yml`, used for automating Terraform deployments.
+- **Security Scan Template:** Located in `.github/workflows/templates/security-scan.yml`, used for integrating Checkov and Trivy security scans into the CI pipeline.
+
+### **Additional Tools and References**
+
+- [Pre-commit Hooks Documentation](https://pre-commit.com/)
+- [Terraform-docs Documentation Generation](https://terraform-docs.io/)
+- [Checkov](https://www.checkov.io/)
+- [Terratest Documentation](https://terratest.gruntwork.io/)
+- [Trivy](https://aquasecurity.github.io/trivy/)
+- [Conventional Commits Specification](https://www.conventionalcommits.org/en/v1.0.0/)
+- [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## **5. Security**
 
